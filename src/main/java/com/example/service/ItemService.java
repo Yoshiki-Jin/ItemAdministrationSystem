@@ -1,0 +1,64 @@
+package com.example.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.domein.Item;
+import com.example.repository.ItemRepository;
+
+/**
+ * 商品情報を操作するサービス.
+ * 
+ * @author 熊沢良樹
+ *
+ */
+@Service
+public class ItemService {
+
+	@Autowired
+	private ItemRepository itemRepository;
+
+	/**
+	 * 商品一覧を表示するメソッド.
+	 * 
+	 * @return 商品一覧表示
+	 */
+	public List<Item> showItemList() {
+		List<Item> itemList = itemRepository.findAll();
+		return itemList;
+	}
+
+	/**
+	 * 商品一覧を表示するメソッド.次のページで30件を表示する.
+	 * 
+	 * @return 商品一覧表示
+	 */
+	public List<Item> showNextPage(int nowPage) {
+		List<Item> itemList = itemRepository.showNextPage(nowPage);
+		return itemList;
+	}
+
+	/**
+	 * 商品一覧を表示するメソッド.前のページを30件を表示する.
+	 * 
+	 * @return 商品一覧表示
+	 */
+	public List<Item> showForwardPage(int nowPage) {
+		List<Item> itemList = itemRepository.showForwardPage(nowPage);
+		return itemList;
+	}
+
+	/**
+	 * 商品詳細情報を表示するメソッド.
+	 * 
+	 * @param id
+	 * @return 商品詳細情報
+	 */
+	public Item showItemDetail(int id) {
+		Item item = itemRepository.load(id);
+		return item;
+	}
+
+}
