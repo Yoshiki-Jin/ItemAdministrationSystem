@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.domein.Item;
+import com.example.domein.ItemInsert;
 import com.example.repository.ItemRepository;
 
 /**
@@ -51,7 +52,7 @@ public class ItemService {
 	}
 
 	/**
-	 * 商品詳細情報を表示するメソッド.
+	 * 商品詳細情報を検索するメソッド.
 	 * 
 	 * @param id
 	 * @return 商品詳細情報
@@ -59,6 +60,23 @@ public class ItemService {
 	public Item showItemDetail(int id) {
 		Item item = itemRepository.load(id);
 		return item;
+	}
+
+	/**
+	 * 商品追加を行うメソッド.
+	 * 
+	 * @param itemInsert
+	 */
+	public void save(ItemInsert itemInsert) {
+		itemRepository.save(itemInsert);
+	}
+	/**
+	 * 商品編集を行うメソッド.
+	 * 
+	 * @param itemInsert
+	 */
+	public void update(ItemInsert itemInsert) {
+		itemRepository.update(itemInsert);
 	}
 
 }
