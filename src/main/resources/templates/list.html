@@ -27,7 +27,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="./list.html" th:href="@{/show}">Rakus Items</a>
+      <a class="navbar-brand" href="./list.html" th:href="@{/showItemList}">Rakus Items</a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <div>
@@ -44,7 +44,7 @@
   <div id="main" class="container-fluid">
     <!-- addItem link -->
     <div id="addItemButton">
-      <a class="btn btn-default" href="./add.html"><i class="fa fa-plus-square-o"></i> Add New Item</a>
+      <a class="btn btn-default" th:href="@{/showAdd}" href="./add.html"><i class="fa fa-plus-square-o"></i> Add New Item</a>
     </div>
 
     <!-- 検索フォーム -->
@@ -55,29 +55,16 @@
         </div>
         <div class="form-group"><i class="fa fa-plus"></i></div>
         <div class="form-group">
-          <select class="form-control">
+          <select class="form-control" id="largeCategory">
             <option>- parentCategory -</option>
-            <option>parentCategory1</option>
-            <option>parentCategory2</option>
-            <option>parentCategory3</option>
-            <option>parentCategory4</option>
-            <option>parentCategory5</option>
-          </select>
-          <select class="form-control">
+            <option th:each="largeCategory:${largeCategoryList}" th:text="${largeCategory.name}" th:value="${largeCategory.id}">parentCategory1</option>
+              </select>
+          <select class="form-control" id="mediumCategory">
             <option>- childCategory -</option>
-            <option>childCategory1</option>
-            <option>childCategory2</option>
-            <option>childCategory3</option>
-            <option>childCategory4</option>
-            <option>childCategory5</option>
+
           </select>
-          <select class="form-control">
+          <select class="form-control" id="smallCategory">
             <option>- grandChild -</option>
-            <option>grandChild1</option>
-            <option>grandChild2</option>
-            <option>grandChild3</option>
-            <option>grandChild4</option>
-            <option>grandChild5</option>
           </select>
         </div>
         <div class="form-group"><i class="fa fa-plus"></i></div>
@@ -149,5 +136,8 @@
       </div>
     </div>
   </div>
+   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <script th:src="@{/category.js}"></script>
+ 
 </body>
 </html>

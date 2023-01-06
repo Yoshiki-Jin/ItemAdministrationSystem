@@ -26,7 +26,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="./list.html">Rakus Items</a>
+      <a class="navbar-brand" href="./list.html"th:href="@{/showItemList}">Rakus Items</a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <div>
@@ -42,27 +42,29 @@
 
   <!-- details -->
   <div id="input-main" class="container">
-    <a type="button" class="btn btn-default" href="./list.html"><i class="fa fa-reply"></i> back</a>
+    <a type="button" class="btn btn-default" th:href="@{/showItemList}" href="./list.html"><i class="fa fa-reply"></i> back</a>
     <h2>Add</h2>
 
     <!-- add form -->
-    <form action="#" method="POST" class="form-horizontal">
+    <form action="#" method="POST" class="form-horizontal" th:action="@{/insert}" th:object="${itemForm}">
       <!-- name -->
       <div class="form-group">
         <label for="inputName" class="col-sm-2 control-label">name</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control" id="inputName"/>
-          <span class="text-danger">error:may not be empty</span>
+          <input type="text" class="form-control" id="inputName" name="name" th:field="*{name}"/>
+          <span class="text-danger" th:errors="*{name}" style="color:red">error:may not be empty</span>
         </div>
       </div>
+      
       <!-- price -->
       <div class="form-group">
         <label for="price" class="col-sm-2 control-label">price</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control" id="price"/>
-          <span class="text-danger">error:may not be empty</span>
+          <input type="text" class="form-control" id="price" name="price" th:field="*{price}" />
+          <span class="text-danger" th:errors="*{price}" style="color:red">error:may not be empty</span>
         </div>
       </div>
+      
       <!-- category -->
       <div class="form-group">
         <label for="category" class="col-sm-2 control-label">category</label>
@@ -85,8 +87,9 @@
       <div class="form-group">
         <label for="category" class="col-sm-2 control-label"></label>
         <div class="col-sm-8">
-          <select class="form-control" id="smallCategory">
-            <option>-- grandChild --</option>
+        <!-- nameをつけることで、Formへ自動的に入る。valueにはすでにjavascript上での値が入っている -->
+          <select class="form-control" id="smallCategory" name="smallCategory" th:field="*{smallCategory}">
+            <option value="">-- grandChild --</option>
           
           </select>
         </div>
@@ -94,46 +97,50 @@
       <div class="form-group">
         <label for="category" class="col-sm-2 control-label"></label>
         <div class="col-sm-8">
-          <span class="text-danger">error:may not be empty</span>
+          <span class="text-danger" th:errors="*{smallCategory}" style="color:red">error:may not be empty</span>
         </div>
       </div>
       <!-- brand -->
       <div class="form-group">
         <label for="brand" class="col-sm-2 control-label">brand</label>
         <div class="col-sm-8">
-          <input type="text" id="brand" class="form-control" name="brand"/>
-          <span class="text-danger">error:may not be empty</span>
+          <input type="text" id="brand" class="form-control" name="brand" th:field="*{brand}"/>
+          <span class="text-danger" th:errors="*{brand}" style="color:red">error:may not be empty</span>
         </div>
       </div>
+      
       <!-- condition -->
       <div class="form-group">
         <label for="condition" class="col-sm-2 control-label">condition</label>
         <div class="col-sm-8">
           <label for="condition1" class="radio-inline">
-            <input type="radio" name="condition" id="condition1" value="1"/> 1
+            <input type="radio" name="condition" id="condition1" value="1"th:field="*{condition}"/> 1
           </label>
           <label for="condition2" class="radio-inline">
-            <input type="radio" name="condition" id="condition2" value="2"/> 2
+            <input type="radio" name="condition" id="condition2" value="2"th:field="*{condition}"/> 2
           </label>
           <label for="condition3" class="radio-inline">
-            <input type="radio" name="condition" id="condition3" value="3"/> 3
+            <input type="radio" name="condition" id="condition3" value="3"th:field="*{condition}"/> 3
           </label>
         </div>
       </div>
       <div class="form-group">
         <label for="category" class="col-sm-2 control-label"></label>
         <div class="col-sm-8">
-          <span class="text-danger">error:may not be empty</span>
+          <span class="text-danger" th:errors="*{condition}" style="color:red">error:may not be empty</span>
         </div>
       </div>
+     
+     
       <!-- description -->
       <div class="form-group">
         <label for="description" class="col-sm-2 control-label">description</label>
         <div class="col-sm-8">
-          <textarea name="description" id="description" class="form-control" rows="5"></textarea>
-          <span class="text-danger">error:may not be empty</span>
+          <textarea name="description" id="description" class="form-control" rows="5" th:field="*{description}"></textarea>
+          <span class="text-danger" th:errors="*{description}" style="color:red">error:may not be empty</span>
         </div>
       </div>
+      
       <!-- submit button -->
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
@@ -141,6 +148,7 @@
         </div>
       </div>
     </form>
+    
   </div>
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
   <script th:src="@{/category.js}"></script>
