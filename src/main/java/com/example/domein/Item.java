@@ -5,7 +5,7 @@ public class Item {
 	private Integer id;
 	private String name;
 	private Integer condition;
-	//表示用にcategoryをString型で定義.
+	// 表示用にcategoryをString型で定義.
 	private String category;
 	private String brand;
 	private double price;
