@@ -59,7 +59,6 @@ public class ItemController {
 	 */
 	@GetMapping("/showEdit")
 	public String showEdit(Model model, ItemForm itemForm,Integer id) {
-		System.out.println("aaaaaaaaa"+id);
 		List<Category> largeCategoryList = categoryService.showAllLargeCategory();
 		model.addAttribute("largeCategoryList", largeCategoryList);
 		
