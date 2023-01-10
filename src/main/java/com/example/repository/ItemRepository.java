@@ -3,14 +3,15 @@ package com.example.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.example.domein.Item;
+import com.example.domein.ItemInsert;
 
 /**
  * 商品一覧表示、商品詳細表示を行うリポジトリ
@@ -77,7 +78,6 @@ public class ItemRepository {
 
 	}
 
-
 	/**
 	 * IDから商品情報を一件検索します.
 	 * 
@@ -92,4 +92,30 @@ public class ItemRepository {
 
 		return item;
 	}
+
+	/**
+	 * itemの追加を行います.
+	 * 
+	 * @param itemForm
+	 */
+	public void save(ItemInsert itemInsert) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(itemInsert);
+
+		String insertSql = "INSERT INTO items(name,condition,category,brand,price,description)VALUES(:name,:condition,:smallCategory,:brand,:price,:description);";
+		template.update(insertSql, param);
+
+	}
+
+	/**
+	 * itemの編集を行います.
+	 * 
+	 * @param itemForm
+	 */
+	public void update(ItemInsert itemInsert) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(itemInsert);
+		String updateSql = "UPDATE items SET name=:name,condition=:condition,category=:smallCategory,brand=:brand,price=:price,description=:description WHERE id=:id;";
+		template.update(updateSql, param);
+
+	}
+
 }

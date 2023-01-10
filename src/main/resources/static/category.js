@@ -43,7 +43,7 @@ $(function() {
 					$('<option>').html('-- grandChild --'));
 			for (let i = 0; i < smallCategory.length; i++) {
 				$('#smallCategory').append(
-					$('<option>').html(smallCategory[i].name).val(smallCategory[i].val));
+					$('<option>').html(smallCategory[i].name).val(smallCategory[i].id));
 				console.log(smallCategory[i])
 
 			}
