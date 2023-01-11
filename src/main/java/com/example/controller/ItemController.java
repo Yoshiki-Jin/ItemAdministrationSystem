@@ -17,6 +17,7 @@ import com.example.domein.Category;
 import com.example.domein.Item;
 import com.example.domein.ItemInsert;
 import com.example.form.ItemForm;
+import com.example.form.ItemSearchForm;
 import com.example.service.CategoryService;
 import com.example.service.ItemService;
 
@@ -58,14 +59,14 @@ public class ItemController {
 	 * @return 大カテゴリリスト１０件
 	 */
 	@GetMapping("/showEdit")
-	public String showEdit(Model model, ItemForm itemForm,Integer id) {
+	public String showEdit(Model model, ItemForm itemForm, Integer id) {
 		List<Category> largeCategoryList = categoryService.showAllLargeCategory();
 		model.addAttribute("largeCategoryList", largeCategoryList);
-		
-		//編集する商品を検索する.
+
+		// 編集する商品を検索する.
 		Item item = itemService.showItemDetail(id);
 		model.addAttribute("item", item);
-		
+
 		return "edit";
 
 	}
@@ -77,7 +78,7 @@ public class ItemController {
 	 * @return 商品情報一覧
 	 */
 	@RequestMapping("/showItemList")
-	public String showItemList(Model model) {
+	public String showItemList(Model model, ItemSearchForm itemSearchForm) {
 
 		List<Item> itemList = itemService.showItemList();
 		model.addAttribute("itemList", itemList);
@@ -174,9 +175,9 @@ public class ItemController {
 	 */
 	@PostMapping("/update")
 	public String update(@Validated ItemForm itemForm, BindingResult result, RedirectAttributes redirectAttributes,
-			Model model,Integer id) {
+			Model model, Integer id) {
 		if (result.hasErrors()) {
-			return showEdit(model, itemForm,id);
+			return showEdit(model, itemForm, id);
 		}
 
 		ItemInsert itemInsert = new ItemInsert();
