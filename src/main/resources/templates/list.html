@@ -49,9 +49,9 @@
 
     <!-- 検索フォーム -->
     <div id="forms">
-      <form action="" class="form-inline" role="form">
+      <form action="" class="form-inline" role="form" th:action="@{/search}" method="post">
         <div class="form-group">
-          <input type="input" class="form-control" id="name" placeholder="item name"/>
+          <input type="text" class="form-control" id="name" name="name" placeholder="item name"/>
         </div>
         <div class="form-group"><i class="fa fa-plus"></i></div>
         <div class="form-group">
@@ -69,12 +69,14 @@
         </div>
         <div class="form-group"><i class="fa fa-plus"></i></div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="brand"/>
+          <input type="text" class="form-control" name="brand" placeholder="brand"/>
         </div>
         <div class="form-group"></div>
         <button type="submit" class="btn btn-default"><i class="fa fa-angle-double-right"></i> search</button>
       </form>
     </div>
+    
+    
 
     <!-- pagination -->
     <div class="pages">
