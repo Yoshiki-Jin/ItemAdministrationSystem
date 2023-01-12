@@ -19,7 +19,6 @@ public class ItemForm {
 	/** 中カテゴリ */
 	private Integer mediumCategory;
 	/** 小カテゴリ */
-	@NotNull(message = "error:may not be empty")
 	//@Range(min=0,max=9999,message = "error:may not be empty")
 	private Integer smallCategory;
 	/** ブランド */

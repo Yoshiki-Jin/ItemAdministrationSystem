@@ -49,23 +49,31 @@
 
     <!-- 検索フォーム -->
     <div id="forms">
-      <form action="" class="form-inline" role="form" th:action="@{/search}" method="post">
+      <form action="" class="form-inline" role="form" th:action="@{/search}" method="post" th:object="${itemSearchForm}">
         <div class="form-group">
           <input type="text" class="form-control" id="name" name="name" placeholder="item name"/>
         </div>
         <div class="form-group"><i class="fa fa-plus"></i></div>
         <div class="form-group">
+        
           <select class="form-control" id="largeCategory">
             <option>- parentCategory -</option>
-            <option th:each="largeCategory:${largeCategoryList}" th:text="${largeCategory.name}" th:value="${largeCategory.id}">parentCategory1</option>
+            <option th:each="largeCategory:${largeCategoryList}" name="largeCategory" th:text="${largeCategory.name}" th:value="${largeCategory.id}">parentCategory1</option>
               </select>
-          <select class="form-control" id="mediumCategory">
+                  
+                  <!-- <span class="text-danger" style="color:red">error:may not be empty</span> -->
+        
+          <select class="form-control" id="mediumCategory" name="mediumCategory">
             <option>- childCategory -</option>
+          </select>
+                  <!-- <span class="text-danger" style="color:red">error:may not be empty</span> -->
+        
+          <select class="form-control" id="smallCategory" name="smallCategory">
+            <option value="0">- grandChild -</option>
+          </select>
+          <span class="text-danger" th:text="${smallCategory}" style="color:red">error:may not be empty</span>
 
-          </select>
-          <select class="form-control" id="smallCategory">
-            <option>- grandChild -</option>
-          </select>
+
         </div>
         <div class="form-group"><i class="fa fa-plus"></i></div>
         <div class="form-group">
