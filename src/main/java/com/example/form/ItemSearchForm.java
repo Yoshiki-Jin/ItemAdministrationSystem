@@ -4,10 +4,10 @@ public class ItemSearchForm {
 
 	/** 名前 */
 	private String name;
-	/** 大カテゴリ */
-	private Integer largeCategory;
-	/** 中カテゴリ */
-	private Integer mediumCategory;
+//	/** 大カテゴリ */
+//	private Integer largeCategory;
+//	/** 中カテゴリ */
+//	private Integer mediumCategory;
 	/** 小カテゴリ */
 	private Integer smallCategory;
 	/** ブランド */
@@ -21,21 +21,21 @@ public class ItemSearchForm {
 		this.name = name;
 	}
 
-	public Integer getLargeCategory() {
-		return largeCategory;
-	}
-
-	public void setLargeCategory(Integer largeCategory) {
-		this.largeCategory = largeCategory;
-	}
-
-	public Integer getMediumCategory() {
-		return mediumCategory;
-	}
-
-	public void setMediumCategory(Integer mediumCategory) {
-		this.mediumCategory = mediumCategory;
-	}
+//	public Integer getLargeCategory() {
+//		return largeCategory;
+//	}
+//
+//	public void setLargeCategory(Integer largeCategory) {
+//		this.largeCategory = largeCategory;
+//	}
+//
+//	public Integer getMediumCategory() {
+//		return mediumCategory;
+//	}
+//
+//	public void setMediumCategory(Integer mediumCategory) {
+//		this.mediumCategory = mediumCategory;
+//	}
 
 	public Integer getSmallCategory() {
 		return smallCategory;
@@ -52,5 +52,12 @@ public class ItemSearchForm {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
+
+	@Override
+	public String toString() {
+		return "ItemSearchForm [name=" + name + ",, smallCategory=" + smallCategory + ", brand=" + brand + "]";
+	}
+	// largeCategory=" + largeCategory + ", mediumCategory="
+	// + mediumCategory + "
 
 }

@@ -22,7 +22,7 @@ public class ItemSearchService {
 	private ItemSearchRepository itemSearchRepository;
 
 	public List<Item> search(ItemSearch itemSearch) {
-		List<Item> itemList = itemSearchRepository.findByBrand(itemSearch.getBrand());
+		List<Item> itemList = itemSearchRepository.search(itemSearch);
 		return itemList;
 	}
 
