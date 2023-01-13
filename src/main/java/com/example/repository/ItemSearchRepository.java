@@ -11,9 +11,11 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domein.Item;
 import com.example.domein.ItemSearch;
+import com.example.domein.MaxRecord;
+import com.example.form.ItemSearchForm;
 
 /**
- * 商品検索結果を行うリポジトリ.
+ * 商品検索を行うリポジトリ.
  * 
  * @author 熊沢良樹
  *
@@ -37,16 +39,21 @@ public class ItemSearchRepository {
 		return item;
 
 	};
+	// 最大件数検索ためのマッパー
+	private static final RowMapper<MaxRecord> MAXRECORD_ROW_MAPPER = (rs, i) -> {
+		MaxRecord maxRecord = new MaxRecord();
+		maxRecord.setMaxReord(rs.getInt("max_record"));
+		return maxRecord;
+
+	};
 
 	/**
-	 * ブランド名で検索するメソッド.
+	 * 上部フォームで検索するメソッド.
 	 * 
-	 * @param brand
+	 * @param itemSearch
 	 * @return
 	 */
-	public List<Item> search(ItemSearch itemSearch) {
-		System.out.println("レポジトリID" + itemSearch.getSmallCategory());
-
+	public List<Item> search(Integer MAX_ITEM_NUM, ItemSearch itemSearch) {
 		String sql = new String(
 				"SELECT i.id as i_id,i.name as i_name,i.price as i_price,c.name_all as c_category,c.id as c_id,c.parent as c_parent,"
 						+ "i.category as i_category,i.brand as i_brand,i.condition as i_condition,i.description as i_description "
@@ -62,45 +69,51 @@ public class ItemSearchRepository {
 			sql += " AND i.name ILIKE" + "'%" + itemSearch.getName() + "%'" + " AND i.brand ILIKE '%"
 					+ itemSearch.getBrand() + "%'" + " AND i.smallCategory = " + itemSearch.getSmallCategory();
 		}
-
-		// 名前であいまい検索
-//		if (!itemSearch.getName().equals("")) {
-//			sql += " AND i.name ILIKE '%" + itemSearch.getName() + "%'";
-//		}
-		// 中カテゴリ
-//		if (itemSearch.getMediumCategory() != null) {
-//			sql += " AND c.parent = " + itemSearch.getMediumCategory();
-//		}
-		// 小カテゴリで検索
-//		if (itemSearch.getSmallCategory() != null) {
-//			sql += " AND i.category = " + itemSearch.getSmallCategory();
-//		}
-		// ブランドであいまい検索
-//		if (!itemSearch.getBrand().equals("")) {
-//			sql += " AND i.name ILIKE" + "'%" + itemSearch.getName() + "%' AND i.brand ILIKE" + "'%"
-//					+ itemSearch.getBrand() + "%'";
-//		}
-
-		sql += " ORDER BY i_id LIMIT 20;";
+		sql += " ORDER BY i_id LIMIT " + MAX_ITEM_NUM + ";";
 
 		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		return itemList;
 	}
 
 	/**
-	 * ブランド名で検索するメソッド.
+	 * ページングした際に検索するメソッド.
 	 * 
-	 * @param brand
-	 * @return
+	 * @param front,rear
+	 * @return 商品一覧
 	 */
-	public List<Item> findByBrand(String brand) {
-		String sql = "SELECT i.id as i_id,i.name as i_name,i.price as i_price,c.id as c_id,c.parent as c_parent,c.name_all as c_category,"
-				+ "i.brand as i_brand,i.condition as i_condition,i.description as i_description "
-				+ "FROM items as i INNER JOIN category as c ON i.category = c.id "
-				+ "WHERE i.brand LIKE :brand ORDER BY i_id LIMIT 20;";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("brand", "%" + brand + "%");
-		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+	public List<Item> searchItemsTurnPage(Integer MAX_ITEM_NUM, Integer offSet, ItemSearchForm itemSearchFormLog) {
+		String sql = new String(
+				"SELECT i.id as i_id,i.name as i_name,i.price as i_price,c.name_all as c_category,c.id as c_id,c.parent as c_parent,"
+						+ "i.category as i_category,i.brand as i_brand,i.condition as i_condition,i.description as i_description "
+						+ "FROM items as i INNER JOIN category as c ON i.category = c.id " + "WHERE 1=1");
+
+		// categoryがない場合(大中小すべて)
+		if (itemSearchFormLog.getSmallCategory() == 0) {
+			sql += " AND i.name ILIKE" + "'%" + itemSearchFormLog.getName() + "%'" + " AND i.brand ILIKE '%"
+					+ itemSearchFormLog.getBrand() + "%'";
+		}
+		// categoryがある場合(大中小すべて)
+		if (itemSearchFormLog.getSmallCategory() != 0) {
+			sql += " AND i.name ILIKE" + "'%" + itemSearchFormLog.getName() + "%'" + " AND i.brand ILIKE '%"
+					+ itemSearchFormLog.getBrand() + "%'" + " AND i.smallCategory = "
+					+ itemSearchFormLog.getSmallCategory();
+		}
+		sql += "ORDER BY i_id LIMIT " + MAX_ITEM_NUM + "OFFSET " + offSet + ";";
+
+		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		return itemList;
+	}
+
+	/**
+	 * 最大件数検索
+	 * 
+	 * @return 最大件数
+	 */
+	public Integer maxRecord() {
+		String sql = "SELECT COUNT(id) AS max_record FROM items;";
+		List<MaxRecord> maxRecordList = template.query(sql, MAXRECORD_ROW_MAPPER);
+		return maxRecordList.get(0).getMaxReord();
+
 	}
 
 }
