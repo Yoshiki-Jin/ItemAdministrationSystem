@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -28,21 +29,28 @@
     <div class="panel panel-default">
       <div class="panel-heading">Register Account</div>
       <div class="panel-body">
-        <form action="#" method="POST">
+      
+        <form action="#" method="POST" th:action="@{/user/insert}" th:object="${insertUserForm}">
+         
           <div class="form-group">
             <label for="mail">mail address</label>
-            <input type="email" class="form-control" id="mail">
+            <input type="email" class="form-control" id="mail" name="username" th:field="*{username}">
+            <span class="text-danger" th:errors="*{username}" style="color:red">error:may not be empty</span>
           </div>
+         
           <div class="form-group">
             <label for="password">password</label>
-            <input type="text" class="form-control" id="password">
+            <input type="password" class="form-control" id="password" name="password" th:field="*{password}">
+            <span class="text-danger" th:errors="*{password}" style="color:red">error:may not be empty</span>
           </div>
+         
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
+        
       </div>
     </div>
     <div>
-      <a type="button" class="btn btn-default" href="./login.html"><i class="fa fa-reply"></i>&nbsp;Login page</a>
+      <a type="button" class="btn btn-default" href="./login.html" th:href="@{/user/login}"><i class="fa fa-reply"></i>&nbsp;Login page</a>
     </div>
 </body>
 </html>
