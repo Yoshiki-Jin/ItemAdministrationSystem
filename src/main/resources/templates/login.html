@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div>
-      <a type="button" class="btn btn-default" href="./register.html"><i class="fa fa-user-plus"></i>&nbsp;Register Account</a>
+      <a type="button" class="btn btn-default" href="./register.html" th:href="@{/user/toInsert}"><i class="fa fa-user-plus"></i>&nbsp;Register Account</a>
     </div>
   </div>
 </body>
