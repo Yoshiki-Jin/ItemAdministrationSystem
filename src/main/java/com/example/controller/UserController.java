@@ -61,7 +61,7 @@ public class UserController {
 	 * 
 	 * @return ログイン画面
 	 */
-	@GetMapping("/login")
+	@GetMapping("/toLogin")
 	public String tologin() {
 		return "login";
 	}
