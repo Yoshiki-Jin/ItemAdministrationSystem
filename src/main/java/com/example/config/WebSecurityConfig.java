@@ -12,19 +12,22 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 	@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.formLogin(login -> login //ログイン時の認証設定
+		
+		http.authorizeHttpRequests(authz -> authz //URLごとの認証設定
+				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() //css等は認証不要
+				.requestMatchers("/user/toLogin","/user/login","/user/toInsert","/user/insert")//ログイン画面、ログイン処理、会員登録画面、会員登録処理は認証不要
+				.permitAll());
+		
+		http.formLogin(login -> login //ログイン時の認証設定
                 .loginProcessingUrl("/user/login") //username、passwordの送信先ＵＲＬ
                 .loginPage("/user/toLogin") //ログイン画面に遷移させるパス
                 .defaultSuccessUrl("/showItemList") //ログイン成功後、遷移させるURL
                 .failureUrl("/login?error") //ログイン失敗後に遷移させるURL
                 .permitAll());
-        http.logout(logout -> logout //ログアウト時の認証設定
+        
+		http.logout(logout -> logout //ログアウト時の認証設定
                 .logoutSuccessUrl("/user/toLogin"));//ログアウト後はログイン画面に遷移
 
-        http.authorizeHttpRequests(authz -> authz //URLごとの認証設定
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() //css等は認証不要
-                .requestMatchers("/user/toLogin","/user/login","/user/toInsert","/user/insert")//ログイン画面、ログイン処理、会員登録画面、会員登録処理は認証不要
-                .permitAll());
         
         http.csrf().disable();//
         

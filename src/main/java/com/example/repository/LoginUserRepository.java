@@ -36,17 +36,17 @@ public class LoginUserRepository {
 	}
 
 	/**
-	 * nameでユーザー情報を検索する.
+	 * usernameでユーザー情報を検索する.
 	 * 
 	 * @param username
 	 * @return ユーザー情報
 	 */
-	public LoginUser findByName(String name) {
-		String sql = "SELECT username,password FROM users WHERE name=:name";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name);
+	public User findByName(String username) {
+		String sql = "SELECT username,password FROM users WHERE username=:name";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("username", username);
 
-		LoginUser loginUser = template.queryForObject(sql, param, LOGINUSER_ROW_MAPPER);
+		User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
 
-		return loginUser;
+		return user;
 	}
 }
