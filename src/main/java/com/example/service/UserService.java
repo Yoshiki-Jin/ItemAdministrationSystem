@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.domein.User;
-import com.example.repository.UserRepository;
+import com.example.repository.LoginUserRepository;
 
 @Service
 public class UserService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private LoginUserRepository loginUserRepository;
 
 	/**
 	 * ユーザー情報を登録するメソッド.
@@ -19,17 +19,7 @@ public class UserService {
 	 */
 	public void insert(User user) {
 
-		userRepository.insert(user);
+		loginUserRepository.insert(user);
 	}
 
-	/**
-	 * メールアドレスからユーザー情報を検索するメソッド. *
-	 * 
-	 * @param email メールアドレス
-	 * @return ユーザー情報
-	 */
-	public User searchByUsername(String username) {
-		return userRepository.findByUsername(username);
-
-	}
 }

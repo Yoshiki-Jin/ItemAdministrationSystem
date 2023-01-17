@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domein.User;
 import com.example.form.InsertUserForm;
+import com.example.form.LoginForm;
+import com.example.service.LoginUserDetailsService;
 import com.example.service.UserService;
 
 @Controller
@@ -20,6 +22,9 @@ import com.example.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private LoginUserDetailsService userDetailsService;
 
 	/**
 	 * ユーザー情報登録画面に遷移する.
@@ -65,5 +70,25 @@ public class UserController {
 	public String tologin() {
 		return "login";
 	}
+	/**
+	 * ログアウト処理を行う.
+	 * 
+	 * @return ログイン画面
+	 */
+	@GetMapping("/logout")
+	public String logout() {
+		return "login";
+	}
+	@RequestMapping("/login")
+	public String login(LoginForm loginForm) {
+//		if(!userService.login(form)){
+//			System.out.println("false側");
+//			return "login";
+//		}
+//		System.out.println("true側");
+		
+		return "redirect:/showItemList";
+	}
+
 
 }

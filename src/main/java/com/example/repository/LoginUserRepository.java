@@ -1,6 +1,6 @@
 package com.example.repository;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -11,15 +11,18 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import com.example.domein.LoginUser;
 import com.example.domein.User;
 
 @Repository
-public class UserRepository {
+public class LoginUserRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
 	private static final RowMapper<User> USER_ROW_MAPPER = new BeanPropertyRowMapper<>(User.class);
+
+	private static final RowMapper<LoginUser> LOGINUSER_ROW_MAPPER = new BeanPropertyRowMapper<>(LoginUser.class);
 
 	/**
 	 * ユーザー情報を登録する.
@@ -33,21 +36,17 @@ public class UserRepository {
 	}
 
 	/**
-	 * usernameでユーザー情報を検索する.
+	 * nameでユーザー情報を検索する.
 	 * 
 	 * @param username
-	 * @return
+	 * @return ユーザー情報
 	 */
-	public User findByUsername(String username) {
-		String sql = "SELECT username,password FROM users WHERE username=:username";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("username", username);
+	public LoginUser findByName(String name) {
+		String sql = "SELECT username,password FROM users WHERE name=:name";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name);
 
-		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
+		LoginUser loginUser = template.queryForObject(sql, param, LOGINUSER_ROW_MAPPER);
 
-		if (userList.size() == 0) { // 検索結果が０だった場合「null」を返す
-			return null;
-		}
-
-		return userList.get(0);
+		return loginUser;
 	}
 }
