@@ -28,18 +28,20 @@
     <div class="panel panel-default">
       <div class="panel-heading">Login</div>
       <div class="panel-body">
-        <p class="text-danger">error:failed to login</p>
-        <form action="#" method="POST">
+        <p class="text-danger" th:text="${loginError}">error:failed to login</p>
+      
+        <form th:action="@{/loginUser}" method="POST" th:object="${loginForm}">
           <div class="form-group">
             <label for="mail">mail address</label>
-            <input type="email" class="form-control" id="mail">
+            <input type="email" class="form-control" id="mail" name="username" th:field="*{username}">
           </div>
           <div class="form-group">
             <label for="password">password</label>
-            <input type="password" class="form-control" id="password">
+            <input type="password" class="form-control" id="password" name="password" th:field="*{password}">
           </div>
           <button type="submit" class="btn btn-default">Login</button>
         </form>
+        
       </div>
     </div>
     <div>

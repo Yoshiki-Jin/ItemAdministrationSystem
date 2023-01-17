@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.domein.LoginForm;
 import com.example.domein.User;
 import com.example.form.InsertUserForm;
 import com.example.service.UserService;
@@ -57,13 +58,30 @@ public class UserController {
 	}
 
 	/**
-	 * ログイン画面に遷移する.
+	 * ログイン画面の表示.
 	 * 
+	 * @param loginForm ログインフォーム
 	 * @return ログイン画面
 	 */
-	@GetMapping("/login")
-	public String tologin() {
+	@RequestMapping("/toLogin")
+	public String toLogin(LoginForm loginForm, Model model, Boolean error) {
+		if (error == null) {
+			return "login";
+		}
+		if (error) {
+			model.addAttribute("loginError", "メールアドレスかパスワードが不正です。");
+		}
 		return "login";
+	}
+
+	/**
+	 * ログインを行い、正常に行われた場合商品一覧に遷移.
+	 * 
+	 * @return 商品一覧
+	 */
+	@RequestMapping("/login")
+	public String login() {
+		return "/showItemList";
 	}
 
 }
