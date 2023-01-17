@@ -1,6 +1,7 @@
 package com.example.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.domein.User;
@@ -10,6 +11,8 @@ import com.example.repository.UserRepository;
 public class UserService {
 
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
 	private UserRepository userRepository;
 
 	/**
@@ -18,7 +21,7 @@ public class UserService {
 	 * @param user ユーザー情報
 	 */
 	public void insert(User user) {
-
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.insert(user);
 	}
 

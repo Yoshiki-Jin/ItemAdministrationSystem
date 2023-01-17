@@ -36,18 +36,14 @@ public class UserRepository {
 	 * usernameでユーザー情報を検索する.
 	 * 
 	 * @param username
-	 * @return
+	 * @return ユーザー
 	 */
 	public User findByUsername(String username) {
 		String sql = "SELECT username,password FROM users WHERE username=:username";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("username", username);
 
-		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
+		User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
 
-		if (userList.size() == 0) { // 検索結果が０だった場合「null」を返す
-			return null;
-		}
-
-		return userList.get(0);
+		return user;
 	}
 }
