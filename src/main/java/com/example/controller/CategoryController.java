@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.domein.Category;
+import com.example.form.ItemForm;
 import com.example.service.CategoryService;
 
 /**
@@ -25,32 +26,21 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
-	/**
-	 * カテゴリー情報を表示するメソッド.
-	 * 
-	 * @param model
-	 * @return カテゴリー情報
-	 */
-	@RequestMapping("/showcategory")
-	public String showCategoryName(int id, Model model) {
-		Category category = categoryService.showCategoryName(id);
-		model.addAttribute("category", category);
-		return "list";
 
-	}
 
 	/**
+	 * list.htmlを表示するメソッド.
 	 * 大カテゴリ１０件を検索するメソッド.
 	 * 
 	 * @param model
 	 * @return 大カテゴリリスト１０件
 	 */
-	@GetMapping("/showAllLargeCategory")
-	public String showAllLargeCategory(Model model) {
+	@GetMapping("/showAllLargeCategoryToList")
+	public String showAllLargeCategoryToList(Model model) {
 		List<Category> largeCategoryList = categoryService.showAllLargeCategory();
 		model.addAttribute("largeCategoryList", largeCategoryList);
-		return "add";
-
+		return "list";
+		
 	}
 
 	/**
@@ -62,10 +52,9 @@ public class CategoryController {
 	 */
 	@ResponseBody
 	@PostMapping("/showMediumCategory")
-	public List<Category> showMediumCategory(Model model, int parent) {
+	public List<Category> showMediumCategory(int parent) {
 		System.out.println(parent);
 		List<Category> mediumCategoryList = categoryService.showMediumCategory(parent);
-		model.addAttribute("mediumCategoryList", mediumCategoryList);
 		return mediumCategoryList;
 
 	}
@@ -79,10 +68,8 @@ public class CategoryController {
 	 */
 	@ResponseBody
 	@PostMapping("/showSmallCategory")
-	public List<Category> showSmallCategory(Model model, int parent) {
-		System.out.println("スモールカテゴリー"+parent);
+	public List<Category> showSmallCategory(int parent) {
 		List<Category> smallCategoryList = categoryService.showSmallCategory(parent);
-		model.addAttribute("smallCategoryList", smallCategoryList);
 		return smallCategoryList;
 
 	}
