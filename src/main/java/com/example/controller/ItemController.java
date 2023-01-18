@@ -18,6 +18,7 @@ import com.example.domein.Item;
 import com.example.domein.ItemInsert;
 import com.example.form.ItemForm;
 import com.example.form.ItemSearchForm;
+import com.example.repository.ItemRepository;
 import com.example.service.CategoryService;
 import com.example.service.ItemService;
 
@@ -34,9 +35,21 @@ public class ItemController {
 	private ItemService itemService;
 
 	@Autowired
+	private ItemRepository itemRepository;
+
+	@Autowired
 	private CategoryService categoryService;
 
+	// 現在のページ
 	private int nowPage = 0;
+
+	// 最大件数
+	private int maxRecord = 30;
+	// 最大件数
+	private final int showItemMaxByPage = 30;
+
+	// 全レコードの件数から算出されるページ数（recordNum/outputNum）
+	private int maxPage;
 
 	/**
 	 * 商品追加画面を表示するメソッド. 大カテゴリ１０件を検索するメソッド.
@@ -82,6 +95,11 @@ public class ItemController {
 
 		List<Item> itemList = itemService.showItemList();
 		model.addAttribute("itemList", itemList);
+
+		// 最大ページを表示する
+		maxRecord = itemRepository.maxRecord();
+		maxPage = maxRecord / showItemMaxByPage;
+		model.addAttribute("maxPage", maxPage);
 
 		// カテゴリー情報を表示する
 		List<Category> largeCategoryList = categoryService.showAllLargeCategory();
@@ -130,6 +148,30 @@ public class ItemController {
 		List<Category> largeCategoryList = categoryService.showAllLargeCategory();
 		model.addAttribute("largeCategoryList", largeCategoryList);
 
+		return "list";
+	}
+
+	/**
+	 * @param selectedPage 入力されたページ
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/showSelectedPage")
+	public String showSelectedPage(Integer selectedPage, Model model) {
+		System.out.println(";;;;;;;;;;;;;" + selectedPage);
+		nowPage = 0;
+
+		// LimitOffsetのため、ー１しておく(始まりの件数を算出するため)
+		nowPage = selectedPage - 1;
+		if (nowPage < 0) {
+			nowPage = 0;
+		}
+		// num2は指定したページの始まりの件数
+		int num2 = showItemMaxByPage * nowPage;
+		model.addAttribute("maxPage", maxPage);
+		List<Item> itemList = itemService.showSelectedPage(showItemMaxByPage, num2);
+		System.out.println(showItemMaxByPage);
+		model.addAttribute("itemList", itemList);
 		return "list";
 	}
 

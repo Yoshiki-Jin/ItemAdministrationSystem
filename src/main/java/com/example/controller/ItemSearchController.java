@@ -38,7 +38,7 @@ public class ItemSearchController {
 	private ItemSearchForm itemSearchFormLog;
 
 	// 最大件数
-	private int maxRecord;
+	private final int maxRecord = 30;
 
 	@Autowired
 	ItemSearchService itemSearchService;

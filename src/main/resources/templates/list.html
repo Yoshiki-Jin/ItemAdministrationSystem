@@ -130,19 +130,21 @@
       </nav>
       <!-- ページ番号を指定して表示するフォーム -->
       <div id="select-page">
-        <form class="form-inline">
+
+        <form class="form-inline" th:action="@{/showSelectedPage}" method="post">
           <div class="form-group">
             <div class="input-group col-xs-6">
               <label></label>
-              <input type="text" class="form-control"/>
+              <input type="text" class="form-control" name="selectedPage"/>
               <!-- 総ページ数 -->
-              <div class="input-group-addon">/ 20</div>
+              <div class="input-group-addon" th:text="${maxPage}">/ 20</div>
             </div>
             <div class="input-group col-xs-1">
               <button type="submit" class="btn btn-default">Go</button>
             </div>
           </div>
         </form>
+
       </div>
     </div>
   </div>

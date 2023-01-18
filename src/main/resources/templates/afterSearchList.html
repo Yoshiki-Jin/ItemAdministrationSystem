@@ -34,6 +34,8 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a id="logout" href="./login.html" th:href="@{/user/logout}">Logout <i class="fa fa-power-off"></i></a></li>
         </ul>
+        
+        <!-- ログイン情報を表示するタグ。authenticationにusernameとpasswordが入っている -->
 		<p class="navbar-text navbar-right">
           USER:<span id="loginName" sec:authentication="principal.username"> userName</span>
         </p>

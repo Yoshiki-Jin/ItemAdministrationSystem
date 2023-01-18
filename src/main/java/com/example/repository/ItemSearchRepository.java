@@ -42,7 +42,7 @@ public class ItemSearchRepository {
 	// 最大件数検索ためのマッパー
 	private static final RowMapper<MaxRecord> MAXRECORD_ROW_MAPPER = (rs, i) -> {
 		MaxRecord maxRecord = new MaxRecord();
-		maxRecord.setMaxReord(rs.getInt("max_record"));
+		maxRecord.setMaxRecord(rs.getInt("max_record"));
 		return maxRecord;
 
 	};
@@ -112,7 +112,7 @@ public class ItemSearchRepository {
 	public Integer maxRecord() {
 		String sql = "SELECT COUNT(id) AS max_record FROM items;";
 		List<MaxRecord> maxRecordList = template.query(sql, MAXRECORD_ROW_MAPPER);
-		return maxRecordList.get(0).getMaxReord();
+		return maxRecordList.get(0).getMaxRecord();
 
 	}
 

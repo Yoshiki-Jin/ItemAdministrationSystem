@@ -32,6 +32,17 @@ public class ItemService {
 	}
 
 	/**
+	 * 選んだページの商品一覧を表示するメソッド.
+	 * 
+	 * @param num1 1ページの最大表示件数（３０件）
+	 * @param num2 指定したページの最初の件目
+	 * @return 商品一覧
+	 */
+	public List<Item> showSelectedPage(int num1, int num2) {
+		return itemRepository.showSelectedPage(num1, num2);
+	}
+
+	/**
 	 * 商品一覧を表示するメソッド.次のページで30件を表示する.
 	 * 
 	 * @return 商品一覧表示
@@ -70,6 +81,7 @@ public class ItemService {
 	public void save(ItemInsert itemInsert) {
 		itemRepository.save(itemInsert);
 	}
+
 	/**
 	 * 商品編集を行うメソッド.
 	 * 

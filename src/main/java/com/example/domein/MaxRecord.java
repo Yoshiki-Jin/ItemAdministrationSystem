@@ -2,13 +2,19 @@ package com.example.domein;
 
 public class MaxRecord {
 
-	private int maxReord;
+	private int maxRecord;
 
-	public int getMaxReord() {
-		return maxReord;
+	public int getMaxRecord() {
+		return maxRecord;
 	}
 
-	public void setMaxReord(int maxReord) {
-		this.maxReord = maxReord;
+	public void setMaxRecord(int maxReord) {
+		this.maxRecord = maxReord;
 	}
+
+	@Override
+	public String toString() {
+		return "MaxRecord [maxRecord=" + maxRecord + "]";
+	}
+
 }

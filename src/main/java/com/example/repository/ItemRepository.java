@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domein.Item;
 import com.example.domein.ItemInsert;
+import com.example.domein.MaxRecord;
 
 /**
  * 商品一覧表示、商品詳細表示を行うリポジトリ
@@ -38,6 +40,14 @@ public class ItemRepository {
 		return item;
 
 	};
+	// 商品情報一覧表示のためのマッパー
+	private static final RowMapper<MaxRecord> MAXRECORD_ROW_MAPPER = (rs, i) -> {
+		MaxRecord maxRecord = new MaxRecord();
+		maxRecord.setMaxRecord(rs.getInt("maxRecord"));
+		return maxRecord;
+		
+	};
+
 
 	/**
 	 * 商品情報一覧を検索するメソッド.
@@ -52,13 +62,40 @@ public class ItemRepository {
 	}
 
 	/**
+	 * 登録されている商品の総数を検索するメソッド.
+	 * 
+	 * @return 商品数
+	 */
+	public Integer maxRecord() {
+		String sql = "SELECT COUNT(id) AS maxRecord FROM items";
+		List<MaxRecord> maxRecord = template.query(sql, MAXRECORD_ROW_MAPPER);
+		System.out.println(maxRecord);
+		return maxRecord.get(0).getMaxRecord();
+
+	}
+
+	/**
+	 * 選んだページの商品一覧を表示するメソッド.
+	 * 
+	 * @param num1 1ページの最大表示件数（３０件）
+	 * @param num2 指定したページの最初の件目
+	 * @return 商品一覧
+	 */
+	public List<Item> showSelectedPage(int num1, int num2) {
+		String sql = "SELECT i.id as i_id,i.name as i_name,i.price as i_price,c.name_all as c_category,i.brand as i_brand,i.condition as i_condition,i.description as i_description FROM items i INNER JOIN category c ON i.category = c.id ORDER BY i_id LIMIT :num1 OFFSET :num2";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("num1", num1).addValue("num2", num2);
+		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+		return itemList;
+	}
+
+	/**
 	 * 商品情報一覧を検索するメソッド。次のページで30件を表示する.
 	 * 
 	 * @return アイテム一覧(30件)←後程sql文の、where以降を修正マスト※※
 	 */
 	public List<Item> showNextPage(int nowPage) {
 
-		String sql = "SELECT i.id as i_id,i.name as i_name,i.price as i_price,c.name_all as c_category,i.brand as i_brand,i.condition as i_condition,i.description as i_description FROM items as i INNER JOIN category as c ON i.category = c.id ORDER BY i_id LIMIT 25 OFFSET 25*:nowPage;";
+		String sql = "SELECT i.id as i_id,i.name as i_name,i.price as i_price,c.name_all as c_category,i.brand as i_brand,i.condition as i_condition,i.description as i_description FROM items as i INNER JOIN category as c ON i.category = c.id ORDER BY i_id LIMIT 30 OFFSET 30*:nowPage;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("nowPage", nowPage);
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
