@@ -28,7 +28,9 @@
     <div class="panel panel-default">
       <div class="panel-heading">Login</div>
       <div class="panel-body">
-        <p class="text-danger" th:text="${loginError}">error:failed to login</p>
+			<div th:if="${session[SPRING_SECURITY_LAST_EXCEPTION] != null}">
+        		<p class="text-danger">メールアドレスかパスワードが違います</p>
+    		</div>
       
         <form th:action="@{/loginUser}" method="POST" th:object="${loginForm}">
           <div class="form-group">
