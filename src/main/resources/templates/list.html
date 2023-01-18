@@ -34,8 +34,8 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a id="logout" href="./login.html" th:href="@{/user/login}">Logout <i class="fa fa-power-off"></i></a></li>
         </ul>
-        <p class="navbar-text navbar-right">
-          <span id="loginName">user: userName</span>
+		<p class="navbar-text navbar-right">
+          USER:<span id="loginName" sec:authentication="principal.username"> userName</span>
         </p>
       </div>
     </div>
